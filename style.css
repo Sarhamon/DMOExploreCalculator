@@ -1,0 +1,154 @@
+:root {
+    --bg-color: #f1f3f5;
+    --text-color: #333;
+    --sub-text: #868e96;
+    --card-bg: #ffffff;
+    --card-border: #e9ecef;
+    --table-head-bg: #343a40;
+    --table-head-text: #ffffff;
+    --table-border: #f1f3f5;
+    --rank1-bg: #fff9db;
+    --rank1-text: #e03131;
+    --accent-color: #228be6;
+    --accent-hover: #1c7ed6;
+    --locked-bg: #f8f9fa;
+    --locked-text: #adb5bd;
+    --badge-bg: #dee2e6;
+    --badge-text: #495057;
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+}
+
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --sub-text: #a0a0a0;
+    --card-bg: #1e1e1e;
+    --card-border: #333;
+    --table-head-bg: #2c2c2c;
+    --table-head-text: #e0e0e0;
+    --table-border: #333;
+    --rank1-bg: #3e3205; 
+    --rank1-text: #ff8787;
+    --accent-color: #339af0;
+    --accent-hover: #1c7ed6;
+    --locked-bg: #252525;
+    --locked-text: #555;
+    --badge-bg: #333;
+    --badge-text: #ccc;
+    --input-bg: #2c2c2c;
+    --input-border: #444;
+}
+
+body { 
+    font-family: 'Pretendard', 'Malgun Gothic', sans-serif; 
+    max-width: 900px; 
+    margin: 0 auto; 
+    padding: 20px; 
+    background-color: var(--bg-color); 
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 30px;
+}
+.header-content { text-align: center; }
+h2 { margin-bottom: 5px; color: var(--text-color); }
+.subtitle { color: var(--sub-text); font-size: 0.95rem; margin: 0; }
+
+.theme-toggle {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    background: none;
+    border: 2px solid var(--card-border);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: 0.3s;
+}
+.theme-toggle:hover { transform: scale(1.1); }
+
+.card { 
+    background: var(--card-bg); 
+    padding: 25px; 
+    border-radius: 16px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    border: 1px solid var(--card-border);
+    margin-bottom: 20px;
+}
+
+.input-group { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 20px; }
+label { font-weight: 700; font-size: 1.1rem; }
+input[type="number"] { 
+    padding: 10px; 
+    font-size: 1.2rem; 
+    width: 100px; 
+    border: 2px solid var(--input-border); 
+    border-radius: 8px; 
+    text-align: center; 
+    outline: none; 
+    font-weight: bold; 
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+input[type="number"]:focus { border-color: var(--accent-color); }
+
+button.calc-btn { 
+    padding: 10px 25px; 
+    font-size: 1.1rem; 
+    font-weight: bold; 
+    background-color: var(--accent-color); 
+    color: white; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+}
+button.calc-btn:hover { background-color: var(--accent-hover); }
+
+.table-container { overflow-x: auto; border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; min-width: 700px; }
+th { 
+    background-color: var(--table-head-bg); 
+    color: var(--table-head-text); 
+    padding: 12px; 
+    font-weight: 600; 
+    white-space: nowrap; 
+}
+td { 
+    padding: 12px; 
+    text-align: center; 
+    border-bottom: 1px solid var(--table-border); 
+    font-size: 0.95rem; 
+}
+tr:last-child td { border-bottom: none; }
+
+.rank-1 { background-color: var(--rank1-bg); }
+.rank-1 td { color: var(--rank1-text); font-weight: bold; }
+
+.locked { background-color: var(--locked-bg); color: var(--locked-text); }
+.locked td { color: var(--locked-text); }
+
+.req-badge { font-size: 0.75em; padding: 2px 6px; border-radius: 4px; background: var(--badge-bg); color: var(--badge-text); }
+.locked .req-badge { background: #ffc9c9; color: #e03131; font-weight: bold; }
+
+.divider-row td { 
+    background: var(--card-border); 
+    color: var(--text-color); 
+    font-weight: bold; 
+    padding: 8px; 
+    font-size: 0.85rem; 
+}

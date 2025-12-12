@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMO 탐험 효율 계산기</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-content">
+            <h2>DMO 탐험 효율 계산기</h2>
+            <p class="subtitle">Lv.140 ~ Lv.170 구간 전용</p>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" title="다크모드 전환">🌙</button>
+    </div>
+
+    <div class="card">
+        <div class="input-group">
+            <label for="userLevel">현재 레벨</label>
+            <input type="number" id="userLevel" min="140" max="170" value="140">
+            <button class="calc-btn" onclick="calculate()">계산하기</button>
+        </div>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <span style="color:var(--sub-text); font-size: 0.9rem;">필요 경험치: </span>
+            <span id="reqExpDisplay" style="color:var(--rank1-text); font-weight:bold; font-family:monospace; font-size: 1.1rem;">-</span>
+        </div>
+    
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>탐험지</th>
+                        <th>탐험제한</th>
+                        <th>시간</th>
+                        <th>획득 경험치</th>
+                        <th>업(%)</th>
+                        <th>시간당 효율</th>
+                    </tr>
+                </thead>
+                <tbody id="resultBody">
+                    <tr><td colspan="7" style="padding: 20px; color: var(--sub-text);">계산 버튼을 눌러주세요.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

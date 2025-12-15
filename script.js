@@ -50,14 +50,20 @@ function loadTheme() {
 
 function calculate() {
     const lvInput = document.getElementById('userLevel');
+    const pctInput = document.getElementById('currentPercent');
+    
     let lv = parseInt(lvInput.value);
+    let curPct = parseFloat(pctInput.value);
+
+    let calcLv = lv;
+    if (!calcLv || calcLv < 140) calcLv = 140;
+    if (calcLv > 170) calcLv = 170;
+
+    if (isNaN(curPct) || curPct < 0) curPct = 0;
+    if (curPct >= 100) curPct = 99.9999;
+
     const tbody = document.getElementById('resultBody');
     const expDisplay = document.getElementById('reqExpDisplay');
-
-    // [수정됨] 타이핑 방해 방지: 입력값(lvInput.value)을 강제로 바꾸지 않고 내부 변수(calcLv)만 보정
-    let calcLv = lv;
-    if (!calcLv || calcLv < 140) calcLv = 140; // 140 미만 입력 중일 때는 140 기준으로 미리 보여줌
-    if (calcLv > 170) calcLv = 170;
 
     const requiredExp = expTable[calcLv];
     if(calcLv === 170) expDisplay.innerHTML = "MAX LEVEL";
@@ -68,8 +74,19 @@ function calculate() {
     let results = places.map(p => {
         const expPerHour = (p.exp / p.time) * 60;
         const percent = (p.exp / requiredExp) * 100;
-        const isLocked = calcLv < p.level; // calcLv 사용
-        return { ...p, expPerHour, percent, isLocked };
+        const isLocked = calcLv < p.level;
+        
+        // 렙업까지 필요한 횟수 계산
+        let runsNeeded = 0;
+        if (!isLocked && percent > 0) {
+            const remaining = 100 - curPct;
+            runsNeeded = Math.ceil(remaining / percent);
+        }
+
+        // 종료 후 예상 경험치
+        const endPercent = curPct + percent;
+
+        return { ...p, expPerHour, percent, isLocked, runsNeeded, endPercent };
     });
 
     results.sort((a, b) => {
@@ -83,19 +100,32 @@ function calculate() {
 
     results.forEach((item, index) => {
         if (item.isLocked && !dividerAdded) {
-            tbody.innerHTML += `<tr class="divider-row"><td colspan="7">▼ 탐험 불가 (레벨 부족) ▼</td></tr>`;
+            tbody.innerHTML += `<tr class="divider-row"><td colspan="8">▼ 입장 불가 (레벨 부족) ▼</td></tr>`;
             dividerAdded = true;
         }
 
         const hour = Math.floor(item.time / 60);
         
         let percentStr = "";
+        let endPercentStr = "";
+        let runsStr = "";
+
         if (item.isLocked) {
             percentStr = "탐험불가"; 
+            endPercentStr = "-";
+            runsStr = "-";
         } else {
+            // 판당 획득 %
             percentStr = item.percent.toFixed(4) + "%";
             if (item.percent < 0.0001) percentStr = "0.0001%↓";
-            if (item.percent >= 100) percentStr = "<b>LEVEL UP</b>";
+
+            // 종료 후 %
+            endPercentStr = item.endPercent.toFixed(4) + "%";
+            if (item.endPercent >= 100) endPercentStr = "<b>LEVEL UP</b>";
+
+            // 남은 횟수
+            runsStr = `<span class="runs-badge">${item.runsNeeded}회</span>`;
+            if (item.percent >= 100) runsStr = `<span class="runs-badge">1회</span>`;
         }
 
         const rowClass = (index === 0 && !item.isLocked) ? 'rank-1' : (item.isLocked ? 'locked' : '');
@@ -111,8 +141,9 @@ function calculate() {
             <td style="text-align:left; font-weight:600;">${item.name}</td>
             <td><span class="req-badge">Lv.${item.level}↑</span></td>
             <td>${hour}시간</td>
-            <td>${formatSimple(item.exp)}</td>
             <td style="color:${perColor}; font-weight:bold;">${percentStr}</td>
+            <td>${endPercentStr}</td>
+            <td>${runsStr}</td>
             <td>${formatSimple(Math.floor(item.expPerHour))}/h</td>
         </tr>`;
         tbody.innerHTML += row;
@@ -138,9 +169,8 @@ function formatSimple(num) {
     return num.toLocaleString();
 }
 
-// [추가된 부분] 입력창 값 변경 시 실시간 자동 계산
 document.getElementById('userLevel').addEventListener('input', calculate);
+document.getElementById('currentPercent').addEventListener('input', calculate);
 
-// 초기 실행
 loadTheme();
 calculate();

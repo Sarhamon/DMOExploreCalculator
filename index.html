@@ -18,10 +18,17 @@
 
     <div class="card">
         <div class="input-group">
-            <label for="userLevel">현재 레벨</label>
-            <input type="number" id="userLevel" min="140" max="170" value="140">
+            <div class="input-wrapper">
+                <label for="userLevel">현재 레벨</label>
+                <input type="number" id="userLevel" min="140" max="170" value="140">
+            </div>
+            <div class="input-wrapper">
+                <label for="currentPercent">현재 경험치 (%)</label>
+                <input type="number" id="currentPercent" min="0" max="99.9999" step="0.0001" value="0" placeholder="0.0000">
+            </div>
             <button class="calc-btn" onclick="calculate()">계산하기</button>
         </div>
+        
         <div style="text-align: center; margin-bottom: 20px;">
             <span style="color:var(--sub-text); font-size: 0.9rem;">필요 경험치: </span>
             <span id="reqExpDisplay" style="color:var(--rank1-text); font-weight:bold; font-family:monospace; font-size: 1.1rem;">-</span>
@@ -33,15 +40,16 @@
                     <tr>
                         <th>순위</th>
                         <th>탐험지</th>
-                        <th>탐험제한</th>
+                        <th>입장제한</th>
                         <th>시간</th>
-                        <th>획득 경험치</th>
-                        <th>업(%)</th>
+                        <th>판당 획득(%)</th>
+                        <th>종료 후(%)</th>
+                        <th>렙업까지</th>
                         <th>시간당 효율</th>
                     </tr>
                 </thead>
                 <tbody id="resultBody">
-                    <tr><td colspan="7" style="padding: 20px; color: var(--sub-text);">계산 버튼을 눌러주세요.</td></tr>
+                    <tr><td colspan="8" style="padding: 20px; color: var(--sub-text);">계산 버튼을 눌러주세요.</td></tr>
                 </tbody>
             </table>
         </div>

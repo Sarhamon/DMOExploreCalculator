@@ -62,6 +62,16 @@ function calculate() {
     if (isNaN(curPct) || curPct < 0) curPct = 0;
     if (curPct >= 100) curPct = 99.9999;
 
+    // --- [추가됨] 일지 경험치 배율 로직 시작 ---
+    let expMultiplier = 1.0; 
+    // HTML에 name="journal"인 라디오 버튼이 있다고 가정
+    const selectedJournal = document.querySelector('input[name="journal"]:checked');
+    if (selectedJournal) {
+        if (selectedJournal.value === '1') expMultiplier = 1.05; // 5% 추가
+        else if (selectedJournal.value === '2') expMultiplier = 1.10; // 10% 추가
+    }
+    // --- [추가됨] 일지 경험치 배율 로직 끝 ---
+
     const tbody = document.getElementById('resultBody');
     const expDisplay = document.getElementById('reqExpDisplay');
 
@@ -72,8 +82,13 @@ function calculate() {
     tbody.innerHTML = '';
 
     let results = places.map(p => {
-        const expPerHour = (p.exp / p.time) * 60;
-        const percent = (p.exp / requiredExp) * 100;
+        // --- [수정됨] 실제 획득 경험치 계산 (기본 경험치 * 배율) ---
+        const gainedExp = p.exp * expMultiplier; 
+        
+        // 시간당 효율과 퍼센트 계산 시 p.exp 대신 gainedExp 사용
+        const expPerHour = (gainedExp / p.time) * 60;
+        const percent = (gainedExp / requiredExp) * 100;
+        
         const isLocked = calcLv < p.level;
         
         // 렙업까지 필요한 횟수 계산
@@ -89,6 +104,7 @@ function calculate() {
         return { ...p, expPerHour, percent, isLocked, runsNeeded, endPercent };
     });
 
+    // ... (이하 정렬 및 출력 로직은 기존과 동일) ...
     results.sort((a, b) => {
         if (a.isLocked !== b.isLocked) {
             return a.isLocked ? 1 : -1;

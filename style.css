@@ -169,3 +169,45 @@ tr:last-child td { border-bottom: none; }
     padding: 8px; 
     font-size: 0.85rem; 
 }
+
+.journal-radios {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    gap: 20px; /* 각 옵션 사이의 간격 (널찍하게) */
+    margin: 0 15px; /* 좌우 여백 */
+    padding: 0 10px;
+}
+
+/* 개별 옵션 (라벨) */
+.radio-option {
+    display: flex;
+    flex-direction: column; /* 중요: 세로 배치 (글자 위, 버튼 아래) */
+    align-items: center;    /* 가운데 정렬 */
+    cursor: pointer;
+    gap: 5px; /* 글자와 버튼 사이 간격 */
+    transition: transform 0.2s; /* 클릭 시 살짝 움직이는 효과 */
+}
+
+.radio-option:hover {
+    transform: translateY(-2px); /* 마우스 올리면 살짝 위로 */
+}
+
+/* 글자 스타일 */
+.label-text {
+    font-size: 0.85rem;
+    color: var(--sub-text);
+    font-weight: bold;
+}
+
+.radio-option input:checked + .label-text { 
+    color: var(--main-text); 
+}
+
+/* 라디오 버튼 크기 살짝 키우기 */
+.radio-option input[type="radio"] {
+    margin: 0;
+    width: 1.2em;
+    height: 1.2em;
+    cursor: pointer;
+    accent-color: #007bff;
+}
